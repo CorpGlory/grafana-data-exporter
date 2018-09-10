@@ -1,4 +1,4 @@
-# Export-manager backend
+# Grafana data exporter
 
 Server for fetching data from Grafana datasources
 
