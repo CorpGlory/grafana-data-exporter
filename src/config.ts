@@ -5,12 +5,7 @@ export const EXPORTED_PATH = path.join(__dirname, '../exported');
 
 
 export function getApiKey(host) {
-  return new Promise((resolve, reject) => {
-    fs.readFile(path.join(__dirname, '../api-keys.json'), 'utf8', (err, data) => {
-      if(err) {
-        reject(err);
-      }
-      resolve(JSON.parse(data)[host]);
-    });
-  });
+  let data = fs.readFileSync(path.join(__dirname, '../api-keys.json'), 'utf8');
+
+  return JSON.parse(data)[host]
 }

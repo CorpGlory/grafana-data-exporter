@@ -5,7 +5,7 @@ ARG build_path=/var/www
 ENV BUILD_PATH=$build_path
 
 # Expose port 80
-EXPOSE 80
+EXPOSE 8000
 
 VOLUME [ "/var/www/exported" ]
 

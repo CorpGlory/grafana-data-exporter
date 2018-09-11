@@ -2,7 +2,7 @@
 
 Server for fetching data from Grafana datasources
 
-Running on 80 port in Docker container.
+Running on 8000 port in Docker container.
 
 Dockerfile has 2 volumes:
 

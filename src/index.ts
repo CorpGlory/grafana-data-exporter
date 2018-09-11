@@ -7,7 +7,7 @@ import * as express from 'express';
 import * as bodyParser from 'body-parser';
 
 const app = express();
-const PORT = 80;
+const PORT = 8000;
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
