@@ -1,5 +1,5 @@
 import { queryByMetric } from './grafana-datasource-kit/grafana_service';
-import { GrafanaDatasource } from './grafana-datasource-kit/grafana_metric_model';
+import { GrafanaDatasource, GrafanaMetric } from './grafana-datasource-kit/grafana_metric_model';
 
 import * as csv from 'fast-csv';
 import * as path from 'path';
@@ -14,26 +14,17 @@ export class Target {
   private days: number;
   private day: number;
   private csvStream: any;
-  private _datasource: GrafanaDatasource;
+  private metric: GrafanaMetric;
 
   constructor(
-    panelUrl: string,
+    private panelUrl: string,
     private user: string,
-    datasource: string,
-    private measurement: string,
-    private query: string,
+    datasource: GrafanaDatasource,
+    targets: Array<Object>,
     private from: number,
     private to: number
-  ) { 
-    this._datasource = {
-      url: panelUrl,
-      type: type,
-      params: {
-        db: string,
-        q: string,
-        epoch: string
-      }
-    }
+  ) {
+    this.metric = new GrafanaMetric(datasource, targets);
   }
 
   public updateStatus(status) {
@@ -41,8 +32,6 @@ export class Target {
     let data = {
       time,
       user: this.user,
-      datasource: this.datasource,
-      measurement: this.measurement,
       exportedRows: this.exportedRows,
       progress: (this.day / this.days).toLocaleString('en', { style: 'percent' }),
       status
@@ -75,11 +64,9 @@ export class Target {
 
       console.log(`${this.day} day: ${from}ms -> ${to}ms`);
 
-      let currentQuery = this.query.replace('$timeFilter', `time >= ${from}ms AND time <= ${to}ms`).replace('$__interval', '1s');
-      let metrics = await queryByMetric(this.datasource, currentQuery);
+      let metrics = await queryByMetric(this.metric, this.panelUrl, from, to);
 
-      console.log(metrics);
-      if(metrics.length > 0) {
+      if(metrics.values.length > 0) {
         if(metrics !== undefined) {
           this.writeCsv(metrics);
         }
@@ -103,22 +90,20 @@ export class Target {
   }
 
   private writeCsv(series) {
-    for(let serie of series) {
-      for(let val of serie.values) {
-        if(val[1] !== null) {
-          let row = {};
-          for(let col in serie.columns) {
-            row[serie.columns[col]] = val[col];
-          }
-          this.csvStream.write(row);
-          this.exportedRows++;
+    for(let val of series.values) {
+      if(val[1] !== null) {
+        let row = {};
+        for(let col in series.columns) {
+          row[series.columns[col]] = val[col];
         }
+        this.csvStream.write(row);
+        this.exportedRows++;
       }
     }
   }
 
   private getFilename(extension) {
-    return `${this.datasource}.${this.measurement}.${this.from}-${this.to}.${extension}`;
+    return `${this.from}-${this.to}.${extension}`;
   }
 
   private getFilePath(extension) {

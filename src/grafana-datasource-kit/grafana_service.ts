@@ -13,7 +13,7 @@ const CHUNK_SIZE = 50000;
  */
 export async function queryByMetric(
   metric: GrafanaMetric, panelUrl: string, from: number, to: number
-): Promise<[number, number][]> {
+) {
 
   let datasource = metric.datasource;
 
@@ -21,14 +21,20 @@ export async function queryByMetric(
   let url = `${origin}/${datasource.url}`;
 
   let params = datasource.params
-  let data = [];
+  let data = {
+    values: [],
+    columns: []
+  };
 
   let chunkParams = Object.assign({}, params);
   while(true) {
-    chunkParams.q = metric.metricQuery.getQuery(from, to, CHUNK_SIZE, data.length);
+    chunkParams.q = metric.metricQuery.getQuery(from, to, CHUNK_SIZE, data.values.length);
     var chunk = await queryGrafana(url, chunkParams);
-    data = data.concat(chunk);
-    if(chunk.length < CHUNK_SIZE) {
+    let values = chunk.values;
+    data.values = data.values.concat(values);
+    data.columns = chunk.columns;
+
+    if(values.length < CHUNK_SIZE) {
       // because if we get less that we could, then there is nothing more
       break;
     }
@@ -38,7 +44,8 @@ export async function queryByMetric(
 }
 
 async function queryGrafana(url: string, params: any) {
-  let headers = { Authorization: `Bearer ${getApiKey(url)}` };
+  let origin = new URL(url).origin;
+  let headers = { Authorization: `Bearer ${getApiKey(origin)}` };
 
   try {
     var res = await axios.get(url, { params, headers });
@@ -59,5 +66,5 @@ async function queryGrafana(url: string, params: any) {
     return [];
   }
 
-  return results.series[0].values as [number, number][];
+  return results.series[0];
 }
