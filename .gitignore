@@ -1,6 +1,5 @@
 node_modules/
 dist/
-exported/*.csv
-exported/*.json
+exported/
 api-keys.json
 package-lock.json
