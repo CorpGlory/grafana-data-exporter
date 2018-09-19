@@ -1,4 +1,5 @@
 import { Target } from '../target'
+import { Datasource } from 'grafana-datasource-kit'
 
 import * as express from 'express'
 
@@ -9,7 +10,7 @@ async function addTask(req, res) {
   let to = parseInt(body.to);
   let panelUrl = body.panelUrl;
   let targets = [body.target];
-  let datasource = body.datasourceRequest;
+  let datasource = body.datasource;
   let user = body.user;
 
   if(isNaN(from) || isNaN(to)) {
@@ -17,8 +18,14 @@ async function addTask(req, res) {
   } else if(from >= to) {
     res.status(500).send('Range error: "from" should be less than "to"');
   } else {
+    let target;
+    try {
+      target = new Target(panelUrl, user, datasource, targets, from, to);
+    } catch (e) {
+      console.error('Error has occurred in task creation process: ', (<Error>e).message);
+      res.status(500).send('Error has occurred in task creation process', (<Error>e).message);
+    }
     res.status(200).send('Task added');
-    let target = new Target(panelUrl, user, datasource, targets, from, to);
     target.export();
   }
 }
