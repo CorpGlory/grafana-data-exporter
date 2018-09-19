@@ -1,5 +1,5 @@
-import { queryByMetric } from './grafana-datasource-kit/grafana_service';
-import { GrafanaDatasource, GrafanaMetric } from './grafana-datasource-kit/grafana_metric_model';
+import { queryByMetric, Datasource, Metric } from 'grafana-datasource-kit';
+import { getApiKey } from './config';
 
 import * as csv from 'fast-csv';
 import * as path from 'path';
@@ -14,17 +14,17 @@ export class Target {
   private days: number;
   private day: number;
   private csvStream: any;
-  private metric: GrafanaMetric;
+  private metric: Metric;
 
   constructor(
     private panelUrl: string,
     private user: string,
-    datasource: GrafanaDatasource,
+    datasource: Datasource,
     targets: Array<Object>,
     private from: number,
     private to: number
   ) {
-    this.metric = new GrafanaMetric(datasource, targets);
+    this.metric = new Metric(datasource, targets);
   }
 
   public updateStatus(status) {
@@ -64,7 +64,8 @@ export class Target {
 
       console.log(`${this.day} day: ${from}ms -> ${to}ms`);
 
-      let metrics = await queryByMetric(this.metric, this.panelUrl, from, to);
+      let apiKey = getApiKey(this.metric.datasource.url)
+      let metrics = await queryByMetric(this.metric, this.panelUrl, from, to, apiKey);
 
       if(metrics.values.length > 0) {
         if(metrics !== undefined) {
