@@ -2,6 +2,13 @@
 
 Server for fetching data from Grafana datasources
 
+## Why would you use it
+
+* To export your metrics on a very big range for analysis
+* To migrate from one datasource to another
+
+## Quick start
+
 Running on 8000 port in Docker container.
 
 Dockerfile has 2 volumes:
