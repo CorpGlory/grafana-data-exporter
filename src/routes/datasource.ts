@@ -10,7 +10,7 @@ function sendOk(req, res) {
 }
 
 function search(req, res) {
-  fs.readdir(EXPORTED_PATH, (err, items) => {
+  fs.readdir(EXPORTED_PATH, err => {
     if(err) {
       console.error(err);
       res.status(500).send('Something went wrong');
@@ -38,10 +38,6 @@ function query(req, res) {
       },
       {
         text: 'Datasource',
-        type: 'string'
-      },
-      {
-        text: 'Measurement',
         type: 'string'
       },
       {
@@ -93,8 +89,7 @@ function query(req, res) {
           resp.rows.push([
             status.time,
             status.user,
-            status.datasource,
-            status.measurement,
+            status.datasourceName,
             status.exportedRows,
             status.progress,
             downloadLink,

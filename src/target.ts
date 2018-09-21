@@ -16,6 +16,7 @@ export class Target {
   private day: number;
   private csvStream: any;
   private metric: Metric;
+  private createdTimestamp: number; 
 
   constructor(
     private panelUrl: string,
@@ -23,7 +24,8 @@ export class Target {
     datasource: Datasource,
     targets: Array<Object>,
     private from: number,
-    private to: number
+    private to: number,
+    private datasourceName: string,
   ) {
     this.metric = new Metric(datasource, targets);
   }
@@ -35,7 +37,8 @@ export class Target {
       user: this.user,
       exportedRows: this.exportedRows,
       progress: (this.day / this.days).toLocaleString('en', { style: 'percent' }),
-      status
+      status,
+      datasourceName: this.datasourceName
     };
     return new Promise((resolve, reject) => {
       fs.writeFile(this.getFilePath('json'), JSON.stringify(data), 'utf8', err => {
@@ -79,7 +82,7 @@ export class Target {
     }
     this.csvStream.end();
   }
-
+  // TODO: move csv-related stuff to service
   private initCsvStream() {
     this.csvStream = csv.createWriteStream({ headers: true });
     let writableStream = fs.createWriteStream(this.getFilePath('csv'));
@@ -105,9 +108,10 @@ export class Target {
   }
 
   private getFilename(extension) {
-    // TODO: use something unique instead of measurement in filename
-    // as measurement field exists only in influxDB metric
-    return `${this.metric.targets[0].measurement}.${this.from}-${this.to}.${extension}`;
+    if(this.createdTimestamp === undefined) {
+      this.createdTimestamp = moment().valueOf();
+    }
+    return `${this.createdTimestamp}.${this.datasourceName}.${extension}`;
   }
 
   private getFilePath(extension) {
