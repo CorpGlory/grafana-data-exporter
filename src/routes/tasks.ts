@@ -10,6 +10,7 @@ async function addTask(req, res) {
   let panelUrl = body.panelUrl;
   let targets = [body.target];
   let datasource = body.datasourceRequest;
+  let datasourceName = body.datasourceName;
   let user = body.user;
 
   if(isNaN(from) || isNaN(to)) {
@@ -18,7 +19,7 @@ async function addTask(req, res) {
     res.status(500).send('Range error: "from" should be less than "to"');
   } else {
     res.status(200).send('Task added');
-    let target = new Target(panelUrl, user, datasource, targets, from, to);
+    let target = new Target(panelUrl, user, datasource, targets, from, to, datasourceName);
     target.export();
   }
 }

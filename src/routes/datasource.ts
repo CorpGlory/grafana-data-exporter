@@ -41,10 +41,6 @@ function query(req, res) {
         type: 'string'
       },
       {
-        text: 'Measurement',
-        type: 'string'
-      },
-      {
         text: 'Exported Rows',
         type: 'number'
       },
@@ -93,8 +89,7 @@ function query(req, res) {
           resp.rows.push([
             status.time,
             status.user,
-            status.datasource,
-            status.measurement,
+            status.datasourceName,
             status.exportedRows,
             status.progress,
             downloadLink,
