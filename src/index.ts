@@ -24,7 +24,7 @@ app.use('/datasource', datasourceRouter);
 app.use('/delete', deleteRouter);
 
 app.use('/static', express.static(EXPORTED_PATH));
-app.use('/', (req, res) => { res.send('Export-manager backend server works') });
+app.use('/', (req, res) => { res.send('Grafana-data-exporter server works') });
 
 app.listen(PORT, () => {
   console.log(`Server is running on :${PORT}`);
