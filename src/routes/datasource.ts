@@ -10,7 +10,7 @@ function sendOk(req, res) {
 }
 
 function search(req, res) {
-  fs.readdir(EXPORTED_PATH, (err, items) => {
+  fs.readdir(EXPORTED_PATH, err => {
     if(err) {
       console.error(err);
       res.status(500).send('Something went wrong');
