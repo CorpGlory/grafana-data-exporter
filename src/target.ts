@@ -54,7 +54,7 @@ export class Target {
 
   public async export() {
     this.exportedRows = 0;
-    this.days = Math.round((this.to - this.from) / MS_IN_DAY);
+    this.days = Math.ceil((this.to - this.from) / MS_IN_DAY);
     this.day = 0;
     this.initCsvStream();
 
