@@ -11,6 +11,6 @@ Server for fetching data from Grafana datasources
 
 Read [wiki page](https://github.com/CorpGlory/grafana-data-exporter/wiki/How-to-use) for quick start
 
-## See also
+### See also
 
 [grafana-data-exporter-panel](https://github.com/CorpGlory/grafana-data-exporter-panel) - Grafana panel used for exporting data
