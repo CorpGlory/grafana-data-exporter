@@ -9,34 +9,11 @@ Server for fetching data from Grafana datasources
 
 ## Quick start
 
-Running on 8000 port in Docker container.
+Read [wiki page](https://github.com/CorpGlory/grafana-data-exporter/wiki/How-to-use) for quick start
 
-Dockerfile has 2 volumes:
+## See also
 
-- `/var/www/api-keys.json` (required, contains API keys for your Grafana hosts, see [example](api-keys-example.json))
-- `/var/www/exported` (optional, directory which contains exported csv files and info about them)
-
-## Build
-
-```
-npm install
-npm run build
-```
-
-## Run
-
-```
-npm start
-```
-
-## Development
-
-You should have `nodemon` module installed to run development server.
-
-```
-npm i -g nodemon
-npm run dev
-```
+[grafana-data-exporter-panel](https://github.com/CorpGlory/grafana-data-exporter-panel) - Grafana panel used for exporting data
 
 ## Changelog
 
