@@ -2,12 +2,13 @@ import { EXPORTED_PATH } from './config';
 import { router as tasksRouter } from './routes/tasks';
 import { router as datasourceRouter } from './routes/datasource';
 import { router as deleteRouter } from './routes/delete';
+import { getPortNum } from './config';
 
 import * as express from 'express';
 import * as bodyParser from 'body-parser';
 
 const app = express();
-const PORT = 8000;
+const PORT = getPortNum("Port");
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));

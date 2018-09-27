@@ -1,5 +1,5 @@
 node_modules/
 dist/
 exported/
-api-keys.json
+config.json
 package-lock.json

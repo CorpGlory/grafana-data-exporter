@@ -8,7 +8,13 @@ if(!fs.existsSync(EXPORTED_PATH)) {
 }
 
 export function getApiKey(host) {
-  let data = fs.readFileSync(path.join(__dirname, '../api-keys.json'), 'utf8');
+  let data = fs.readFileSync(path.join(__dirname, '../config.json'), 'utf8');
 
   return JSON.parse(data)[host]
+}
+
+export function getPortNum(port) {
+  let data = fs.readFileSync(path.join(__dirname, '../config.json'), 'utf8');
+
+  return JSON.parse(data)[port]
 }
