@@ -29,7 +29,7 @@ function query(req, res) {
     type: 'table',
     columns: [
       {
-        text: 'Time',
+        text: 'Progress updated',
         type: 'time'
       },
       {
