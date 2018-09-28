@@ -1,6 +1,6 @@
 {
   "name": "grafana-data-exporter",
-  "version": "0.3.1",
+  "version": "0.3.3",
   "description": "Server for fetching data from Grafana datasources",
   "scripts": {
     "start": "node dist/server.js",
@@ -16,7 +16,7 @@
     "axios": "^0.18.0",
     "express": "^4.16.3",
     "fast-csv": "^2.4.1",
-    "grafana-datasource-kit": "^0.0.6",
+    "grafana-datasource-kit": "^0.0.8",
     "moment": "^2.22.1",
     "nodemon": "^1.17.3",
     "ts-loader": "^3.5.0",
