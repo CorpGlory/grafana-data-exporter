@@ -1,4 +1,6 @@
 {
-  "http://localhost:3500": "eyJrIjoiTjlUcmtLSFRNcTdqeXBaQjB5REk2TFkyUDBDM0Z1bWciLCJuIjoiZXhwb3J0LW1hbmFnZXIiLCJpZCI6MX0=",
-  "Port": "8000"
+  "apiKeys" : { 
+    "http://localhost:3500": "eyJrIjoiTjlUcmtLSFRNcTdqeXBaQjB5REk2TFkyUDBDM0Z1bWciLCJuIjoiZXhwb3J0LW1hbmFnZXIiLCJpZCI6MX0="
+  },
+  "port": "8000"
 }
