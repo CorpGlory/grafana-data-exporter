@@ -1,12 +1,11 @@
 import { queryByMetric, Datasource, Metric } from 'grafana-datasource-kit';
-import { getApiKey } from './config';
+import { apiKeys } from './config';
 
 import * as csv from 'fast-csv';
 import * as path from 'path';
 import * as fs from 'fs';
 import * as moment from 'moment';
 import { URL } from 'url';
-
 
 const MS_IN_DAY = 24 * 60 * 60 * 1000;
 
@@ -29,6 +28,7 @@ export class Target {
   ) {
     this.metric = new Metric(datasource, targets);
   }
+  
 
   public updateStatus(status) {
     let time = moment().valueOf();
@@ -68,7 +68,7 @@ export class Target {
 
       console.log(`${this.day} day: ${from}ms -> ${to}ms`);
 
-      let apiKey = getApiKey(new URL(this.panelUrl).origin);
+      let apiKey = apiKeys[new URL(this.panelUrl).origin];
       let metrics = await queryByMetric(this.metric, this.panelUrl, from, to, apiKey);
 
       if(metrics.values.length > 0) {

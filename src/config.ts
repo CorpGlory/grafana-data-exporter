@@ -7,14 +7,15 @@ if(!fs.existsSync(EXPORTED_PATH)) {
   fs.mkdirSync(EXPORTED_PATH);
 }
 
-export const getApiKey = (host) => {
+function getConfigField(field: string, defaultVal?: any) {
   let data = fs.readFileSync(path.join(__dirname, '../config.json'), 'utf8');
-
-  return JSON.parse(data).apiKeys[host]
+  let result = JSON.parse(data)[field];
+  if(result !== undefined) {
+    return result;
+  } else {
+    return defaultVal;
+  }
 }
 
-export const getPortNum = () => {
-  let data = fs.readFileSync(path.join(__dirname, '../config.json'), 'utf8');
-
-  return JSON.parse(data).port
-}
+export const port = getConfigField('port', '8000');
+export const apiKeys = getConfigField('apiKeys');
