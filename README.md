@@ -9,7 +9,7 @@ Server for fetching data from Grafana datasources
 
 ## Quick start
 
-Read [wiki page](https://github.com/CorpGlory/grafana-data-exporter/wiki/How-to-use) for quick start
+Read [wiki page](https://github.com/CorpGlory/grafana-data-exporter/wiki) for quick start
 
 ### See also
 
