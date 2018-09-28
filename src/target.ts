@@ -68,7 +68,12 @@ export class Target {
 
       console.log(`${this.day} day: ${from}ms -> ${to}ms`);
 
-      let apiKey = apiKeys[new URL(this.panelUrl).origin];
+      let host = new URL(this.panelUrl).origin;
+      let apiKey = apiKeys[host];
+
+      if(apiKey === undefined || apiKey === '') {
+        throw new Error(`Please configure API key for ${host}`);
+      }
       let metrics = await queryByMetric(this.metric, this.panelUrl, from, to, apiKey);
 
       if(metrics.values.length > 0) {
@@ -89,7 +94,7 @@ export class Target {
 
     this.csvStream.pipe(writableStream);
     writableStream.on('finish', async () => {
-      console.log('Everything is written');
+      console.log(`Everything is written to ${this.getFilename('csv')}`);
       await this.updateStatus('finished');
     })
   }
