@@ -1,6 +1,6 @@
 {
   "apiKeys" : { 
-    "http://localhost:3500": "eyJrIjoiTjlUcmtLSFRNcTdqeXBaQjB5REk2TFkyUDBDM0Z1bWciLCJuIjoiZXhwb3J0LW1hbmFnZXIiLCJpZCI6MX0="
+    "http://localhost:3000": "eyJrIjoiTjlUcmtLSFRNcTdqeXBaQjB5REk2TFkyUDBDM0Z1bWciLCJuIjoiZXhwb3J0LW1hbmFnZXIiLCJpZCI6MX0="
   },
   "port": "8000"
 }
