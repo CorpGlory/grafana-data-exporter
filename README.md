@@ -1,6 +1,6 @@
 # Grafana data exporter
 
-Server for fetching data from Grafana datasources
+Server for fetching data from Grafana datasources. Works with [grafana-data-exporter-panel](https://github.com/CorpGlory/grafana-data-exporter-panel).
 
 ## Why would you use it
 
@@ -14,3 +14,4 @@ Read [wiki page](https://github.com/CorpGlory/grafana-data-exporter/wiki) for qu
 ### See also
 
 [grafana-data-exporter-panel](https://github.com/CorpGlory/grafana-data-exporter-panel) - Grafana panel used for exporting data
+[grafana-datasource-kit](https://github.com/CorpGlory/grafana-datasource-kit) - library for processing Grafana metrics
