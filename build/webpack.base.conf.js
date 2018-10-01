@@ -1,7 +1,4 @@
 const path = require('path');
-const fs = require('fs');
-
-const webpack = require('webpack');
 
 
 function resolve(p) {
@@ -21,13 +18,6 @@ module.exports = {
     filename: "server.js",
     path: resolve('dist')
   },
-  plugins: [
-    new webpack.optimize.OccurrenceOrderPlugin(),
-    new webpack.HotModuleReplacementPlugin(),
-    new webpack.DefinePlugin({
-      'process.env.NODE_ENV': JSON.stringify('development')
-    })
-  ],
   resolve: {
     extensions: [".ts", ".js"]
   },
