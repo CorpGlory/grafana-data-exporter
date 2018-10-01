@@ -1,6 +1,6 @@
 {
   "name": "grafana-data-exporter",
-  "version": "0.3.3",
+  "version": "0.3.4",
   "description": "Server for fetching data from Grafana datasources",
   "scripts": {
     "start": "node dist/server.js",
