@@ -1,7 +1,7 @@
 # Grafana Data Exporter
 
 Server for fetching data from Grafana datasources. You would you use it:
-1) to export your metrics on a very big range for analysis
+1) To export your metrics on a very big range for analysis
 2) To migrate from one datasource to another
 
 ## See also
