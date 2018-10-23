@@ -1,3 +1,7 @@
+<p align="center">
+  <img width="auto" align="middle" height="120px" src="https://user-images.githubusercontent.com/22073083/47374103-d42f4780-d6f5-11e8-85d3-287855707512.png">
+</p>
+
 # Grafana Data Exporter
 
 Server for fetching data from Grafana datasources. You would you use it:
