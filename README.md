@@ -18,3 +18,7 @@ Server for fetching data from Grafana datasources. You would you use it:
 * [Getting started](https://github.com/CorpGlory/grafana-data-exporter-panel/wiki)
 * [DataExporterPanel](https://github.com/CorpGlory/grafana-data-exporter-panel) - Grafana panel used for creation exporting tasks
 * [GrafanaDatasourceKit](https://github.com/CorpGlory/grafana-datasource-kit) - library for processing Grafana metrics
+
+
+## About CorpGlory Inc.
+The project developed by [CorpGlory Inc.](https://corpglory.com/), a company which provides high quality software development, data visualization, Grafana and monitoring consulting.
