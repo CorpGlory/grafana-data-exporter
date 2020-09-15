@@ -18,9 +18,10 @@ async function addTask(req, res) {
   } else if(from >= to) {
     res.status(500).send('Range error: "from" should be less than "to"');
   } else {
-    res.status(200).send('Exporting ' + datasourceName + ' data from ' + new Date(from).toLocaleString() + ' to ' + new Date(to).toLocaleString());
     let target = new Target(panelUrl, user, datasource, targets, from, to, datasourceName);
-    target.export();
+    await target.export();
+
+    res.status(200).send('Exporting ' + datasourceName + ' data from ' + new Date(from).toLocaleString() + ' to ' + new Date(to).toLocaleString());
   }
 }
 
