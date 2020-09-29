@@ -10,14 +10,17 @@ Server for fetching data from Grafana datasources. You would you use it:
 
 # Installation
 
+* [Getting started](https://github.com/CorpGlory/grafana-data-exporter-panel/wiki)
+
 * [Linux](https://github.com/CorpGlory/grafana-data-exporter/wiki/Getting-Started-Linux)
 * [Docker](https://github.com/CorpGlory/grafana-data-exporter/wiki/Getting-Started-Docker)
 
 ## See also
 
-* [Getting started](https://github.com/CorpGlory/grafana-data-exporter-panel/wiki)
-* [DataExporterPanel](https://github.com/CorpGlory/grafana-data-exporter-panel) - Grafana panel used for creation exporting tasks
-* [GrafanaDatasourceKit](https://github.com/CorpGlory/grafana-datasource-kit) - library for processing Grafana metrics
+* [DataExporterPanel](https://github.com/CorpGlory/grafana-data-exporter-panel) -- Grafana panel used for creation exporting tasks
+* [TsdbKit](https://github.com/CorpGlory/tsdb-kit) -- library for processing Grafana metrics
+
+## More from CorpGlory
 * [grafana-chartwerk-app](https://github.com/chartwerk/grafana-chartwerk-app) -- advanced visualisations for Grafana from CorpGlory Team
 * [hastic](https://hastic.io/) -- pattern detection and anomaly detection for Grafana
 
