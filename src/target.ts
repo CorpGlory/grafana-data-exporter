@@ -1,5 +1,6 @@
-import { queryByMetric, Datasource, Metric } from 'grafana-datasource-kit';
 import { apiKeys } from './config';
+
+import { queryByMetric, Datasource, Metric } from '@corpglory/tsdb-kit';
 
 import * as csv from 'fast-csv';
 import * as path from 'path';
@@ -15,7 +16,7 @@ export class Target {
   private day: number;
   private csvStream: any;
   private metric: Metric;
-  private createdTimestamp: number; 
+  private createdTimestamp: number;
 
   constructor(
     private panelUrl: string,
@@ -28,7 +29,6 @@ export class Target {
   ) {
     this.metric = new Metric(datasource, targets);
   }
-  
 
   public updateStatus(status) {
     let time = moment().valueOf();
@@ -87,7 +87,8 @@ export class Target {
     }
     this.csvStream.end();
   }
-  // TODO: move csv-related stuff to service
+
+  // TODO: move csv-related stuff to a service
   private initCsvStream() {
     this.csvStream = csv.createWriteStream({ headers: true });
     let writableStream = fs.createWriteStream(this.getFilePath('csv'));
