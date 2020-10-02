@@ -10,9 +10,9 @@ type TRequest = {
     data: Array<{
       panelUrl: string,
       datasourceRequest: Datasource,
-      datasourceName: string
+      datasourceName: string,
+      target: object,
     }>,
-    target: object,
     user: string,
   }
 };
@@ -22,7 +22,6 @@ async function addTask(req: TRequest, res) {
   const from = parseInt(body.from);
   const to = parseInt(body.to);
   const data = body.data;
-  const targets = [body.target];
   const user = body.user;
 
   if(isNaN(from) || isNaN(to)) {
@@ -34,7 +33,7 @@ async function addTask(req: TRequest, res) {
     res.status(200).send(`Exporting ${names} data from ${new Date(from).toLocaleString()} to ${new Date(to).toLocaleString()}`);
 
     data.forEach(request => {
-      const target = new Target(request.panelUrl, user, request.datasourceRequest, targets, from, to, request.datasourceName);
+      const target = new Target(request.panelUrl, user, request.datasourceRequest, [request.target], from, to, request.datasourceName);
       target.export();
     });
   }
