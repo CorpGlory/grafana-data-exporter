@@ -126,8 +126,6 @@ export class Exporter {
   }
 
   private writeCsv(stream, series) {
-    let exportedRows = 0;
-
     for (let val of series.values) {
       if (val[1] !== null) {
         let row = {};
@@ -135,11 +133,9 @@ export class Exporter {
           row[series.columns[col]] = val[col];
         }
         stream.write(row);
-        exportedRows++;
+        this.exportedRows++;
       }
     }
-
-    return exportedRows;
   }
 
   private getFilename(extension) {
