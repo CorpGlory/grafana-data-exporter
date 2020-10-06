@@ -1,4 +1,4 @@
 export enum ExportStatus {
-  Exporting = 'exporting',
-  Finished = 'finished',
+  EXPORTING = 'exporting',
+  FINISHED = 'finished',
 }

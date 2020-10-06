@@ -25,7 +25,7 @@ export class Exporter {
     csvStream.pipe(writableStream);
     writableStream.on('finish', async () => {
       console.log(`Everything is written to ${this.getFilename('csv')}`);
-      await this.updateStatus(ExportStatus.Finished, 1);
+      await this.updateStatus(ExportStatus.FINISHED, 1);
     })
 
     return csvStream;
@@ -44,7 +44,7 @@ export class Exporter {
       };
 
       await promisify(fs.writeFile, this.getFilePath('json'), JSON.stringify(data), 'utf8')
-    } catch (err) {
+    } catch(err) {
       console.error(err);
       throw new Error('Can`t write file');
     }
@@ -80,8 +80,8 @@ export class Exporter {
 
         const datasourceMetrics = await queryByMetric(target.metric, target.panelUrl, from, to, apiKey);
 
-        const column = `${target.panelTitle.replace(' ', '-')}` +
-          `-${target.panelId}-${datasourceMetrics.columns[1]}`;
+        const column = `${target.panelId}` +
+          `-${target.panelTitle.replace(' ', '-')}-${datasourceMetrics.columns[1]}`;
 
         columns.push(column);
 
@@ -107,7 +107,7 @@ export class Exporter {
           values: metricsValues,
         });
       }
-      await this.updateStatus(ExportStatus.Exporting, (day + 1) / days);
+      await this.updateStatus(ExportStatus.EXPORTING, (day + 1) / days);
 
       from += MS_IN_DAY;
     }
