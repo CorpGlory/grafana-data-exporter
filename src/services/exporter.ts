@@ -7,7 +7,7 @@ import * as fs from 'fs';
 import { promisify } from '../util';
 import * as moment from 'moment';
 import * as path from 'path';
-import {ExportStatus} from "../types/export-status.enum";
+import {ExportStatus} from "../types/export-status";
 
 const MS_IN_DAY = 24 * 60 * 60 * 1000;
 const TIMESTAMP_COLUMN = 'timestamp';
