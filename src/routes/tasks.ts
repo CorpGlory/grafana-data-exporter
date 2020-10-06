@@ -27,8 +27,6 @@ async function addTask(req: TRequest, res) {
   const data = body.data;
   const user = body.user;
 
-  data.forEach(d => console.log(d));
-
   if(isNaN(from) || isNaN(to)) {
     res.status(400).send('Range error: please fill both "from" and "to" fields');
   } else if(from >= to) {
