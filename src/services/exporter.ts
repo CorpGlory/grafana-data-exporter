@@ -1,13 +1,16 @@
-import { Metric, queryByMetric } from '@corpglory/tsdb-kit';
 import { Target } from '../types/target';
 import { URL } from 'url';
 import { apiKeys } from '../config';
+import { promisify } from '../utils';
+import { ExportStatus } from '../types/export-status';
+
+import { Metric, queryByMetric } from '@corpglory/tsdb-kit';
+
+import * as moment from 'moment';
 import * as csv from 'fast-csv';
 import * as fs from 'fs';
-import { promisify } from '../util';
-import * as moment from 'moment';
 import * as path from 'path';
-import { ExportStatus } from '../types/export-status';
+import * as _ from 'lodash';
 
 const MS_IN_DAY = 24 * 60 * 60 * 1000;
 const TIMESTAMP_COLUMN = 'timestamp';
@@ -88,7 +91,7 @@ export class Exporter {
         for(const row of datasourceMetrics.values) {
           const [timestamp, value] = row;
 
-          if (values[timestamp] === undefined) {
+          if(values[timestamp] === undefined) {
             values[timestamp] = new Array(targets.length);
           }
           values[timestamp][index] = value;
@@ -123,24 +126,24 @@ export class Exporter {
       const host = new URL(target.panelUrl).origin;
       const apiKey = apiKeys[host];
 
-      if (apiKey === undefined || apiKey === '') {
+      if(apiKey === undefined || apiKey === '') {
         throw new Error(`Please configure API key for ${host}`);
       }
     }
   }
 
   private writeCsv(stream, series) {
-    for(let val of series.values) {
-      let isEmpty = false;
-      for(let i = 1; i < val.length; i++) {
-        isEmpty = isEmpty || val[i] === null || val[i] === undefined;
-      }
+    for(let row of series.values) {
+      const isEmpty = _.every(
+        _.slice(row, 1),
+        val => val === null
+      );
       if(!isEmpty) {
-        let row = {};
+        let csvRow = {};
         for(let col in series.columns) {
-          row[series.columns[col]] = val[col];
+          csvRow[series.columns[col]] = row[col];
         }
-        stream.write(row);
+        stream.write(csvRow);
         this.exportedRows++;
       }
     }
