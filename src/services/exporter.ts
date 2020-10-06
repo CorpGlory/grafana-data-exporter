@@ -16,6 +16,7 @@ export class Exporter {
   private exportedRows = 0;
   private createdTimestamp: number;
   private user: string;
+  private datasource: string;
 
   private initCsvStream() {
     const csvStream = csv.createWriteStream({ headers: true });
@@ -57,6 +58,8 @@ export class Exporter {
       ...target,
       metric: new Metric(target.datasource, target.targets)
     }));
+
+    this.datasource = data.length === 1 ? data[0].datasourceName : 'all';
 
     const stream = this.initCsvStream();
     const days = Math.ceil((to - from) / MS_IN_DAY);
@@ -128,7 +131,11 @@ export class Exporter {
 
   private writeCsv(stream, series) {
     for (let val of series.values) {
-      if (val !== undefined && val.length > 1 && val[1] !== null) {
+      let isEmpty = false;
+      for(let i = 1; i < val.length; i++) {
+        isEmpty = isEmpty || val[i] === null || val[i] === undefined;
+      }
+      if (!isEmpty) {
         let row = {};
         for (let col in series.columns) {
           row[series.columns[col]] = val[col];
@@ -143,7 +150,7 @@ export class Exporter {
     if (this.createdTimestamp === undefined) {
       this.createdTimestamp = moment().valueOf();
     }
-    return `${this.createdTimestamp}.all.${extension}`;
+    return `${this.createdTimestamp}.${this.datasource}.${extension}`;
   }
 
   private getFilePath(extension) {
