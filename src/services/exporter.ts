@@ -4,12 +4,13 @@ import { URL } from 'url';
 import { apiKeys } from '../config';
 import * as csv from 'fast-csv';
 import * as fs from 'fs';
-import { promisify } from './common';
+import { promisify } from '../util';
 import * as moment from 'moment';
 import * as path from 'path';
+import {ExportStatus} from "../types/export-status.enum";
 
 const MS_IN_DAY = 24 * 60 * 60 * 1000;
-const TIMESTAMP_COLUMN = 'timestamp'
+const TIMESTAMP_COLUMN = 'timestamp';
 
 export class Exporter {
   private exportedRows = 0;
@@ -17,13 +18,13 @@ export class Exporter {
   private user: string;
 
   private initCsvStream() {
-    const csvStream = csv.createWriteStream({headers: true});
+    const csvStream = csv.createWriteStream({ headers: true });
     const writableStream = fs.createWriteStream(this.getFilePath('csv'));
 
     csvStream.pipe(writableStream);
     writableStream.on('finish', async () => {
       console.log(`Everything is written to ${this.getFilename('csv')}`);
-      await this.updateStatus('finished', 1);
+      await this.updateStatus(ExportStatus.Finished, 1);
     })
 
     return csvStream;
@@ -36,7 +37,7 @@ export class Exporter {
         time,
         user: this.user,
         exportedRows: this.exportedRows,
-        progress: progress.toLocaleString('en', {style: 'percent'}),
+        progress: progress.toLocaleString('en', { style: 'percent' }),
         status,
         datasourceName: 'all',
       };
@@ -84,7 +85,7 @@ export class Exporter {
         for (const row of datasourceMetrics.values) {
           const [timestamp, value] = row;
 
-          if (!values[timestamp]) {
+          if (values[timestamp] === undefined) {
             values[timestamp] = new Array(targets.length);
           }
           values[timestamp][index] = value;
@@ -103,7 +104,7 @@ export class Exporter {
           values: metricsValues,
         });
       }
-      await this.updateStatus('exporting', (day + 1) / days);
+      await this.updateStatus(ExportStatus.Exporting, (day + 1) / days);
 
       from += MS_IN_DAY;
     }
@@ -127,7 +128,7 @@ export class Exporter {
 
   private writeCsv(stream, series) {
     for (let val of series.values) {
-      if (val[1] !== null) {
+      if (val !== undefined && val.length > 1 && val[1] !== null) {
         let row = {};
         for (let col in series.columns) {
           row[series.columns[col]] = val[col];
