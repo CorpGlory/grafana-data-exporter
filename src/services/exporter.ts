@@ -7,7 +7,7 @@ import * as fs from 'fs';
 import { promisify } from '../util';
 import * as moment from 'moment';
 import * as path from 'path';
-import {ExportStatus} from "../types/export-status";
+import { ExportStatus } from '../types/export-status';
 
 const MS_IN_DAY = 24 * 60 * 60 * 1000;
 const TIMESTAMP_COLUMN = 'timestamp';
@@ -40,7 +40,7 @@ export class Exporter {
         exportedRows: this.exportedRows,
         progress: progress.toLocaleString('en', { style: 'percent' }),
         status,
-        datasourceName: 'all',
+        datasourceName: this.datasource,
       };
 
       await promisify(fs.writeFile, this.getFilePath('json'), JSON.stringify(data), 'utf8')
@@ -66,7 +66,7 @@ export class Exporter {
 
     console.log(`Total days: ${days}`);
 
-    for (let day = 0; day < days; day++) {
+    for(let day = 0; day < days; day++) {
       to = from + MS_IN_DAY;
 
       console.log(`${day} day: ${from}ms -> ${to}ms`);
@@ -74,7 +74,7 @@ export class Exporter {
       const columns = [TIMESTAMP_COLUMN];
       const values = {};
 
-      for (const [index, target] of targets.entries()) {
+      for(const [index, target] of targets.entries()) {
         const host = new URL(target.panelUrl).origin;
         const apiKey = apiKeys[host];
 
@@ -85,7 +85,7 @@ export class Exporter {
 
         columns.push(column);
 
-        for (const row of datasourceMetrics.values) {
+        for(const row of datasourceMetrics.values) {
           const [timestamp, value] = row;
 
           if (values[timestamp] === undefined) {
@@ -101,7 +101,7 @@ export class Exporter {
         metricsValues.push([timestamp, ...values[timestamp]]);
       });
 
-      if (metricsValues.length > 0) {
+      if(metricsValues.length > 0) {
         this.writeCsv(stream, {
           columns,
           values: metricsValues,
@@ -115,11 +115,11 @@ export class Exporter {
   }
 
   private validateTargets(targets: Target[]) {
-    if (!targets || !Array.isArray(targets)) {
+    if(!targets || !Array.isArray(targets)) {
       throw new Error('Incorrect targets format');
     }
 
-    for (const target of targets) {
+    for(const target of targets) {
       const host = new URL(target.panelUrl).origin;
       const apiKey = apiKeys[host];
 
@@ -130,14 +130,14 @@ export class Exporter {
   }
 
   private writeCsv(stream, series) {
-    for (let val of series.values) {
+    for(let val of series.values) {
       let isEmpty = false;
       for(let i = 1; i < val.length; i++) {
         isEmpty = isEmpty || val[i] === null || val[i] === undefined;
       }
-      if (!isEmpty) {
+      if(!isEmpty) {
         let row = {};
-        for (let col in series.columns) {
+        for(let col in series.columns) {
           row[series.columns[col]] = val[col];
         }
         stream.write(row);
@@ -147,7 +147,7 @@ export class Exporter {
   }
 
   private getFilename(extension) {
-    if (this.createdTimestamp === undefined) {
+    if(this.createdTimestamp === undefined) {
       this.createdTimestamp = moment().valueOf();
     }
     return `${this.createdTimestamp}.${this.datasource}.${extension}`;
